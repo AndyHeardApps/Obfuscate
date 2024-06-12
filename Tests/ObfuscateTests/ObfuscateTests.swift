@@ -2,12 +2,13 @@ import Testing
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
 
+@Suite(.enabled(if: MacroTesting.shared.isEnabled))
 struct ObfuscateTests {}
 
 // MARK: - Tests
 extension ObfuscateTests {
     
-    @Test("Explicit key", .enabled(if: MacroTesting.shared.isEnabled))
+    @Test("Explicit key")
     func explicitKey() throws {
         assertMacroExpansion(
             """
@@ -35,7 +36,7 @@ extension ObfuscateTests {
         )
     }
     
-    @Test("Generated key", .enabled(if: MacroTesting.shared.isEnabled))
+    @Test("Generated key")
     func generatedKey() throws {
         assertMacroExpansion(
             """
