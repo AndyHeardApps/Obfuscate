@@ -1,23 +1,14 @@
+import Testing
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
-import XCTest
 
-#if canImport(ObfuscateMacros)
-@testable import ObfuscateMacros
-
-let testMacros: [String : Macro.Type] = [
-    "obfuscate" : ObfuscateMacro.self,
-]
-#endif
-
-final class ObfuscateTests: XCTestCase {}
+struct ObfuscateTests {}
 
 // MARK: - Tests
 extension ObfuscateTests {
     
-    func testMacro_willExpandCorrectly_withExplicitKey() throws {
-        #if canImport(ObfuscateMacros)
-        ObfuscateMacro.randomNumberGenerator = MockRandomNumberGenerator()
+    @Test("Explicit key", .enabled(if: MacroTesting.shared.isEnabled))
+    func explicitKey() throws {
         assertMacroExpansion(
             """
             let decryptedValue = #obfuscate("value", key: "PapYT8nL1T4EJQPxejHdf0D8yUzJ75UTEcu5A83zoBU=")
@@ -40,16 +31,12 @@ extension ObfuscateTests {
                 return decryptedValue
             }
             """,
-            macros: testMacros
+            macros: MacroTesting.shared.testMacros
         )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
     }
     
-    func testMacro_willExpandCorrectly_withGeneratedKey() throws {
-        #if canImport(ObfuscateMacros)
-        ObfuscateMacro.randomNumberGenerator = MockRandomNumberGenerator()
+    @Test("Generated key", .enabled(if: MacroTesting.shared.isEnabled))
+    func generatedKey() throws {
         assertMacroExpansion(
             """
             let decryptedValue = #obfuscate("value")
@@ -65,10 +52,7 @@ extension ObfuscateTests {
                 return String(data: decryptedData, encoding: .utf8)!
             }()
             """,
-            macros: testMacros
+            macros: MacroTesting.shared.testMacros
         )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
     }
 }

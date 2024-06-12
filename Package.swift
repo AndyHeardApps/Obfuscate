@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -35,22 +35,31 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
-            ]
+            ],
+            swiftSettings: swiftSettings
         ),
         .target(
             name: "Obfuscate",
-            dependencies: ["ObfuscateMacros"]
+            dependencies: ["ObfuscateMacros"],
+            swiftSettings: swiftSettings
         ),
         .executableTarget(
             name: "ObfuscateClient",
-            dependencies: ["Obfuscate"]
+            dependencies: ["Obfuscate"],
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "ObfuscateTests",
             dependencies: [
                 "ObfuscateMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
-            ]
+            ],
+            swiftSettings: swiftSettings
         )
-    ]
+    ],
+    swiftLanguageVersions: [.v6]
 )
+
+var swiftSettings: [SwiftSetting] { [
+    .enableExperimentalFeature("StrictConcurrency"),
+] }
