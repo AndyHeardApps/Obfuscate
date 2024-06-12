@@ -9,7 +9,7 @@ struct ObfuscateTests {}
 extension ObfuscateTests {
     
     @Test("Explicit key")
-    func explicitKey() throws {
+    func explicitKey() {
         assertMacroExpansion(
             """
             let decryptedValue = #obfuscate("value", key: "PapYT8nL1T4EJQPxejHdf0D8yUzJ75UTEcu5A83zoBU=")
@@ -37,7 +37,7 @@ extension ObfuscateTests {
     }
     
     @Test("Generated key")
-    func generatedKey() throws {
+    func generatedKey() {
         assertMacroExpansion(
             """
             let decryptedValue = #obfuscate("value")
