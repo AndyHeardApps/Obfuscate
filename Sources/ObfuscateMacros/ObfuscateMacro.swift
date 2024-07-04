@@ -84,14 +84,14 @@ extension ObfuscateMacro {
 // MARK: - Explicit key
 extension ObfuscateMacro {
     
-    static var randomNumberGenerator: RandomNumberGenerator = SystemRandomNumberGenerator()
+    nonisolated(unsafe) static let randomNumberGeneratorStore = RandomNumberGeneratorStore()
     
     private static func generatedKeyExpression(
         node: some FreestandingMacroExpansionSyntax,
         value: String
     ) throws -> ExprSyntax {
         
-        let key = SymmetricKey(data: Data(size: 32, using: &randomNumberGenerator))
+        let key = SymmetricKey(data: Data(size: 32, using: &randomNumberGeneratorStore.generator))
         let keyBytes = key.withUnsafeBytes { [UInt8]($0) }
         
         let encryptedBytes = try encryptedBytes(
@@ -164,7 +164,7 @@ extension ObfuscateMacro {
             encryptedData = try AES.GCM.seal(
                 Data(value.utf8),
                 using: key,
-                nonce: .init(data: Data(size: 12, using: &randomNumberGenerator))
+                nonce: .init(data: Data(size: 12, using: &randomNumberGeneratorStore.generator))
             ).combined
         } catch {
             throw DiagnosticsError(diagnostics: [
