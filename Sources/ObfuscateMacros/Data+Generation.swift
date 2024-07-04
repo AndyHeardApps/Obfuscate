@@ -17,3 +17,23 @@ extension Data {
         self = .init(bytes)
     }
 }
+
+final class RandomNumberGeneratorStore {
+    
+    // Properties
+    private let lock = NSLock()
+    private var _generator: any RandomNumberGenerator
+    var generator: any RandomNumberGenerator {
+        get {
+            lock.withLock { _generator }
+        }
+        set {
+            lock.withLock { _generator = newValue }
+        }
+    }
+    
+    // Initializer
+    init() {
+        self._generator = SystemRandomNumberGenerator()
+    }
+}

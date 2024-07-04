@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -47,19 +47,12 @@ let package = Package(
             name: "ObfuscateClient",
             dependencies: ["Obfuscate"],
             swiftSettings: swiftSettings
-        ),
-        .testTarget(
-            name: "ObfuscateTests",
-            dependencies: [
-                "ObfuscateMacros",
-                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
-            ],
-            swiftSettings: swiftSettings
         )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageVersions: [.v5]
 )
 
 var swiftSettings: [SwiftSetting] { [
+    .enableUpcomingFeature("DisableOutwardActorInference"),
     .enableExperimentalFeature("StrictConcurrency"),
 ] }
