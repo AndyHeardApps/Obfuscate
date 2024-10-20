@@ -26,7 +26,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/apple/swift-syntax.git",
-            from: "509.0.0"
+            from: "600.0.0"
         )
     ],
     targets: [
@@ -57,7 +57,7 @@ let package = Package(
             swiftSettings: swiftSettings
         )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageModes: [.v6]
 )
 
 var swiftSettings: [SwiftSetting] { [

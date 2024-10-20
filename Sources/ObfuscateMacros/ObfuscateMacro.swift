@@ -40,7 +40,7 @@ extension ObfuscateMacro {
     private static func arguments(in node: some FreestandingMacroExpansionSyntax) throws -> Arguments {
         
         guard 
-            let value = node.argumentList.first?
+            let value = node.arguments.first?
                 .expression
                 .as(StringLiteralExprSyntax.self)?
                 .representedLiteralValue
@@ -55,8 +55,8 @@ extension ObfuscateMacro {
         
         let key: SymmetricKey?
         if
-            node.argumentList.last?.label?.text == "key",
-            let keyBase64 = node.argumentList.last?
+            node.arguments.last?.label?.text == "key",
+            let keyBase64 = node.arguments.last?
                 .expression
                 .as(StringLiteralExprSyntax.self)?
                 .representedLiteralValue
